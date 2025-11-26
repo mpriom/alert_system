@@ -1,4 +1,4 @@
-# Censys Alert System
+# Alert System
 
 A resilient alert ingestion system that fetches, enriches, and stores alerts from a third-party API.
 
