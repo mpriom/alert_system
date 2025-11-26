@@ -31,6 +31,46 @@ Services will be available at:
 - `GET /alerts` - Fetch alerts (optional: `?since=<ISO8601>`)
 - `GET /health` - Health check
 
+## Testing with cURL
+
+### Health Checks
+```bash
+# Alert service health
+curl http://localhost:8080/health
+
+# Mock API health
+curl http://localhost:8081/health
+```
+
+### Get Alerts
+```bash
+# Get all alerts
+curl http://localhost:8080/alerts
+
+# Get alert by ID
+curl http://localhost:8080/alerts?id=<uuid>
+
+# Get alerts from last 7 days
+curl http://localhost:8080/alerts?days=7
+
+# Pretty print with jq
+curl -s http://localhost:8080/alerts | jq
+```
+
+### Trigger Manual Sync
+```bash
+curl -X POST http://localhost:8080/sync
+```
+
+### Mock API (Direct)
+```bash
+# Get all alerts from mock API
+curl http://localhost:8081/alerts
+
+# Get alerts since timestamp
+curl "http://localhost:8081/alerts?since=2025-01-01T00:00:00Z"
+```
+
 ## Configuration
 
 Environment variables in `docker-compose.yml`:
@@ -42,5 +82,18 @@ Environment variables in `docker-compose.yml`:
 
 ## Stop Services
 ```bash
-docker-compose down -v  # -v removes volumes
+# Stop services
+docker-compose down
+
+# Stop and remove volumes
+docker-compose down -v
+```
+
+## Run Tests
+```bash
+# Alert service tests
+cd alert-service && go test -v ./...
+
+# Mock API tests
+cd mock-alerts-api && go test -v ./...
 ```
